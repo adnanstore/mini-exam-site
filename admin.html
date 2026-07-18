@@ -2,231 +2,246 @@
 <html lang="ar" dir="rtl">
 
 <head>
+  <meta charset="UTF-8">
 
-<meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة الإدارة</title>
 
-<title>لوحة الإدارة</title>
-
-<link rel="stylesheet" href="/style.css">
-
+  <link rel="stylesheet" href="/style.css">
 </head>
-
 
 <body>
 
-
 <header>
+  <div class="container">
+    <nav>
+      <div class="brand">
+        لوحة إدارة الاختبارات
+      </div>
 
-<div class="container">
-
-<nav>
-
-<div class="brand">
-لوحة إدارة الاختبارات
-</div>
-
-<a href="/" class="btn gray">
-الرئيسية
-</a>
-
-</nav>
-
-</div>
-
+      <a href="/" class="btn gray">
+        الرئيسية
+      </a>
+    </nav>
+  </div>
 </header>
 
-
-
 <section class="section">
-
-
-<div class="container">
-
-
-
-<!-- تسجيل الدخول -->
-
-<div id="loginCard" class="card">
-
-<h2>
-تسجيل دخول الإدارة
-</h2>
-
-
-<input
-type="password"
-id="password"
-placeholder="كلمة المرور">
-
-
-
-<button onclick="login()">
-دخول
-</button>
-
-
-<div id="loginMsg"></div>
-
-
-</div>
-
-
-
-
-
-<!-- لوحة الإدارة -->
-
-<div
-id="adminPanel"
-class="hidden">
-
-
-<div class="admin-layout">
-
-<div class="card">
-
-<h2>إعدادات الصفحة الرئيسية</h2>
-
-<input id="homeTitle" placeholder="عنوان الصفحة الرئيسية">
-
-<textarea id="homeDescription" placeholder="وصف الصفحة الرئيسية"></textarea>
-
-<input id="homeButtonText" placeholder="نص الزر">
-
-
-<label>لون الخلفية</label>
-<input id="backgroundColor" type="color" value="#ffffff">
-
-
-<label>لون العنوان</label>
-<input id="titleColor" type="color" value="#1e3a8a">
-
-
-<label>لون الزر</label>
-<input id="buttonColor" type="color" value="#2563eb">
-
-
-<label>لون النص</label>
-<input id="textColor" type="color" value="#000000">
-
-
-<button onclick="saveHomeSettings()">
-حفظ إعدادات الصفحة
-</button>
-
-</div>
-
-
-
-<div class="card">
-
-<h2>🔔 إشعار للطلاب</h2>
-
-<input id="notificationTitle" placeholder="عنوان الإشعار">
-
-<textarea id="notificationMessage" placeholder="نص الإشعار"></textarea>
-
-<button onclick="addNotification()">
-نشر الإشعار
-</button>
-
-<p id="notificationMsg"></p>
-
-</div>
-
-<!-- تغيير كلمة المرور داخل الإدارة -->
-
-<div class="card">
-
-
-<h2>
-تغيير كلمة مرور الإدارة
-</h2>
-
-
-<input
-id="oldPassword"
-type="password"
-placeholder="كلمة المرور الحالية">
-
-
-
-<input
-id="newPassword"
-type="password"
-placeholder="كلمة المرور الجديدة">
-
-
-
-<button onclick="changeAdminPassword()">
-
-تغيير كلمة المرور
-
-</button>
-
-
-<p id="passwordMessage"></p>
-
-
-</div>
-
-
-
-
-
-<!-- إضافة اختبار -->
-
-<div class="card">
-
-
-<h2>
-إضافة اختبار
-</h2>
-
-
-<input
-id="title"
-placeholder="اسم الاختبار">
-
-
-
-<input
-id="duration"
-type="number"
-placeholder="مدة الاختبار بالدقائق">
-
-
-<label>
-عدد المحاولات المسموح بها
-</label>
-
-
-<input
-id="attempts"
-type="number"
-min="1"
-value="1"
->
-<!-- إضافة أسئلة دفعة واحدة -->
-
-<div class="card bulk-import-card">
-
-<h2>
-إضافة أسئلة دفعة واحدة
-</h2>
-
-
-<p class="muted">
-الصق الأسئلة والخيارات والإجابة الصحيحة هنا ثم اضغط استيراد
-</p>
-
-
-<textarea
-id="bulkQuestions"
-rows="14"
-placeholder="مثال:
+  <div class="container">
+
+    <!-- تسجيل الدخول -->
+    <div id="loginCard" class="card">
+      <h2>تسجيل دخول الإدارة</h2>
+
+      <input
+        type="password"
+        id="password"
+        placeholder="كلمة المرور"
+      >
+
+      <button onclick="login()">
+        دخول
+      </button>
+
+      <div id="loginMsg"></div>
+    </div>
+
+    <!-- لوحة الإدارة -->
+    <div id="adminPanel" class="hidden">
+
+      <div class="admin-layout">
+
+        <!-- إعدادات الصفحة الرئيسية -->
+        <div class="card">
+          <h2>إعدادات الصفحة الرئيسية</h2>
+
+          <input
+            id="homeTitle"
+            placeholder="عنوان الصفحة الرئيسية"
+          >
+
+          <textarea
+            id="homeDescription"
+            placeholder="وصف الصفحة الرئيسية"
+          ></textarea>
+
+          <input
+            id="homeButtonText"
+            placeholder="نص الزر"
+          >
+
+          <label>لون الخلفية</label>
+          <input
+            id="backgroundColor"
+            type="color"
+            value="#ffffff"
+          >
+
+          <label>لون العنوان</label>
+          <input
+            id="titleColor"
+            type="color"
+            value="#1e3a8a"
+          >
+
+          <label>لون الزر</label>
+          <input
+            id="buttonColor"
+            type="color"
+            value="#2563eb"
+          >
+
+          <label>لون النص</label>
+          <input
+            id="textColor"
+            type="color"
+            value="#000000"
+          >
+
+          <button onclick="saveHomeSettings()">
+            حفظ إعدادات الصفحة
+          </button>
+
+          <p id="homeSettingsMsg"></p>
+        </div>
+
+        <!-- نشر إشعار -->
+        <div class="card">
+          <h2>🔔 نشر إشعار للطلاب</h2>
+
+          <input
+            id="notificationTitle"
+            placeholder="عنوان الإشعار"
+          >
+
+          <textarea
+            id="notificationMessage"
+            placeholder="نص الإشعار"
+          ></textarea>
+
+          <input
+            id="editingNotificationId"
+            type="hidden"
+          >
+
+          <div class="actions">
+            <button
+              id="notificationSaveButton"
+              type="button"
+              onclick="addNotification()"
+            >
+              نشر الإشعار
+            </button>
+
+            <button
+              id="cancelNotificationEditButton"
+              type="button"
+              class="gray hidden"
+              onclick="cancelNotificationEdit()"
+            >
+              إلغاء التعديل
+            </button>
+          </div>
+
+          <p id="notificationMsg"></p>
+        </div>
+
+        <!-- إدارة الإشعارات -->
+        <div class="card">
+          <h2>إدارة الإشعارات المنشورة</h2>
+
+          <div class="actions">
+            <button
+              type="button"
+              class="gray"
+              onclick="loadNotifications()"
+            >
+              تحديث القائمة
+            </button>
+
+            <button
+              type="button"
+              class="danger"
+              onclick="deleteAllNotifications()"
+            >
+              حذف جميع الإشعارات
+            </button>
+          </div>
+
+          <p id="notificationsManagerMsg"></p>
+
+          <div id="notificationsList">
+            جاري تحميل الإشعارات...
+          </div>
+        </div>
+
+        <!-- تغيير كلمة المرور -->
+        <div class="card">
+          <h2>تغيير كلمة مرور الإدارة</h2>
+
+          <input
+            id="oldPassword"
+            type="password"
+            placeholder="كلمة المرور الحالية"
+          >
+
+          <input
+            id="newPassword"
+            type="password"
+            placeholder="كلمة المرور الجديدة"
+          >
+
+          <button onclick="changeAdminPassword()">
+            تغيير كلمة المرور
+          </button>
+
+          <p id="passwordMessage"></p>
+        </div>
+
+        <!-- إضافة اختبار -->
+        <div class="card">
+          <h2 id="examFormTitle">
+            إضافة اختبار
+          </h2>
+
+          <input
+            id="title"
+            placeholder="اسم الاختبار"
+          >
+
+          <input
+            id="duration"
+            type="number"
+            placeholder="مدة الاختبار بالدقائق"
+          >
+
+          <label>
+            عدد المحاولات المسموح بها
+          </label>
+
+          <input
+            id="attempts"
+            type="number"
+            min="1"
+            value="1"
+          >
+
+          <!-- إضافة أسئلة دفعة واحدة -->
+          <div class="bulk-import-card">
+            <h2>إضافة أسئلة دفعة واحدة</h2>
+
+            <p class="muted">
+              الصق الأسئلة والخيارات والإجابة الصحيحة هنا ثم اضغط استيراد
+            </p>
+
+            <textarea
+              id="bulkQuestions"
+              rows="14"
+              placeholder="مثال:
 
 1. ما عاصمة اليمن؟
 أ) صنعاء
@@ -242,108 +257,68 @@ placeholder="مثال:
 ج) 5
 د) 6
 
-الإجابة الصحيحة: ب
-"></textarea>
+الإجابة الصحيحة: ب"
+            ></textarea>
 
+            <div class="actions">
+              <button
+                type="button"
+                onclick="importBulkQuestions()"
+              >
+                استيراد الأسئلة
+              </button>
 
+              <button
+                type="button"
+                class="gray"
+                onclick="clearBulkQuestions()"
+              >
+                مسح النص
+              </button>
+            </div>
 
-<div class="actions">
+            <p
+              id="bulkMessage"
+              class="muted"
+            ></p>
+          </div>
 
+          <!-- الأسئلة اليدوية -->
+          <div id="questions"></div>
 
-<button
-type="button"
-onclick="importBulkQuestions()">
+          <button
+            type="button"
+            onclick="addQuestion()"
+          >
+            إضافة سؤال
+          </button>
 
-استيراد الأسئلة
+          <br><br>
 
-</button>
+          <button
+            type="button"
+            onclick="saveExam()"
+          >
+            حفظ الاختبار
+          </button>
+        </div>
 
+        <!-- قائمة الاختبارات -->
+        <div class="card">
+          <h2>الاختبارات الحالية</h2>
 
+          <div id="examList">
+            جاري التحميل...
+          </div>
+        </div>
 
-<button
-type="button"
-class="gray"
-onclick="clearBulkQuestions()">
+      </div>
+    </div>
 
-مسح النص
-
-</button>
-
-
-</div>
-
-
-<p
-id="bulkMessage"
-class="muted">
-</p>
-
-
-</div>
-
-
-
-
-<!-- الأسئلة اليدوية -->
-
-<div id="questions"></div>
-
-
-
-<button onclick="addQuestion()">
-
-إضافة سؤال
-
-</button>
-
-
-
-<br><br>
-
-
-
-<button onclick="saveExam()">
-
-حفظ الاختبار
-
-</button>
-
-
-
-</div>
-<!-- قائمة الاختبارات -->
-
-<div class="card">
-
-<h2>
-الاختبارات الحالية
-</h2>
-
-
-<div id="examList">
-
-جاري التحميل...
-
-</div>
-
-
-</div>
-
-
-</div>
-
-</div>
-
-</div>
-
-
+  </div>
 </section>
-
-
 
 <script src="/app.js"></script>
 
-
 </body>
-
 </html>
