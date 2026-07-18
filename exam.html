@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الاختبار</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<header>
+<div class="container">
+<nav>
+<div class="brand">منصة الاختبارات</div>
+<div class="timer" id="timer">00:00</div>
+</nav>
+</div>
+</header>
+
+<section class="section">
+
+<div class="container">
+
+<div id="startCard" class="card">
+
+<h2 id="examTitle">تحميل الاختبار...</h2>
+
+<div class="form">
+
+<input
+type="text"
+id="studentName"
+placeholder="اسم الطالب">
+<input
+type="text"
+id="studentId"
+placeholder="رقم الطالب">
+<button onclick="startExam()">
+بدء الاختبار
+</button>
+
+</div>
+
+</div>
+
+<div
+id="examCard"
+class="card hidden">
+
+<div id="questions"></div>
+
+<br>
+
+<button onclick="submitExam()">
+إنهاء الاختبار
+</button>
+
+</div>
+
+<div
+id="resultCard"
+class="card hidden">
+
+<div
+class="result"
+id="resultText">
+</div>
+
+</div>
+
+</div>
+
+</section>
+<script>
+
+const params = new URLSearchParams(window.location.search);
+const examId = params.get("id");
+
+let examData = null;
+let remainingSeconds = 0;
+let timerInterval = null;
+let submitted = false;
+
+async function loadExam() {
+  if (!examId) {
+    document.getElementById("examTitle").textContent =
+      "لم يتم تحديد الاختبار";
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/exams/${examId}`);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "تعذر تحميل الاختبار");
+    }
+
+    examData = data;
+
+    document.getElementById("examTitle").textContent =
+      examData.title;
+
+    document.getElementById("timer").textContent =
+      formatTime(examData.duration * 60);
+  } catch (error) {
+    document.getElementById("examTitle").textContent =
+      error.message;
+  }
+}
+
+function startExam() {
+  const studentName = document
+    .getElementById("studentName")
+    .value
+    .trim();
+const studentId = document
+  .getElementById("studentId")
+  .value
+  .trim();
+  if (!studentName || !studentId) {
+  alert("يرجى كتابة اسم الطالب ورقم الطالب");
+  return;
+}
+  if (!examData) {
+    alert("لم يتم تحميل الاختبار بعد");
+    return;
+  }
+
+  document.getElementById("startCard")
+    .classList.add("hidden");
+
+  document.getElementById("examCard")
+    .classList.remove("hidden");
+
+  renderQuestions();
+
+  remainingSeconds = examData.duration * 60;
+  updateTimer();
+
+  timerInterval = setInterval(() => {
+    remainingSeconds--;
+
+    updateTimer();
+
+    if (remainingSeconds <= 0) {
+      clearInterval(timerInterval);
+      submitExam(true);
+    }
+  }, 1000);
+}
+
+function renderQuestions() {
+  const questionsBox =
+    document.getElementById("questions");
+
+  questionsBox.innerHTML = "";
+
+  examData.questions.forEach((question, index) => {
+    const questionBox = document.createElement("div");
+
+    questionBox.className = "question";
+
+    let optionsHTML = "";
+
+    question.options.forEach((option, optionIndex) => {
+      optionsHTML += `
+        <label class="option">
+          <input
+            type="radio"
+            name="question-${question.id}"
+            value="${optionIndex}">
+          <span>${option}</span>
+        </label>
+      `;
+    });
+
+    questionBox.innerHTML = `
+      <h3>
+        السؤال ${index + 1}:
+        ${question.text}
+      </h3>
+
+      <div class="options">
+        ${optionsHTML}
+      </div>
+    `;
+
+    questionsBox.appendChild(questionBox);
+  });
+}
+
+function updateTimer() {
+  document.getElementById("timer").textContent =
+    formatTime(remainingSeconds);
+}
+
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remaining = seconds % 60;
+
+  return (
+    String(minutes).padStart(2, "0") +
+    ":" +
+    String(remaining).padStart(2, "0")
+  );
+}
+
+async function submitExam(timeEnded = false) {
+  if (submitted) {
+    return;
+  }
+
+  submitted = true;
+
+  if (timerInterval) {
+    clearInterval(timerInterval);
+  }
+
+  const studentName = document
+    .getElementById("studentName")
+    .value
+    .trim();
+
+  const answers = {};
+
+  examData.questions.forEach(question => {
+    const selected = document.querySelector(
+      `input[name="question-${question.id}"]:checked`
+    );
+
+    if (selected) {
+      answers[question.id] = Number(selected.value);
+    }
+  });
+
+  try {
+    const response = await fetch("/api/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+  examId: Number(examId),
+  name: studentName,
+  studentId: studentId,
+  answers
+})       
+
+
+   });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error || "تعذر إرسال النتيجة");
+    }
+
+    document.getElementById("examCard")
+      .classList.add("hidden");
+
+    document.getElementById("resultCard")
+      .classList.remove("hidden");
+
+    document.getElementById("resultText").innerHTML = `
+      <p>الطالب: ${result.name}</p>
+
+      <p>
+        النتيجة:
+        ${result.score}
+        من
+        ${result.total}
+      </p>
+
+      ${
+        timeEnded
+          ? "<p class='muted'>انتهى الوقت وتم تسليم الاختبار تلقائيًا.</p>"
+          : ""
+      }
+
+      <a class="btn" href="/">
+        العودة للرئيسية
+      </a>
+    `;
+  } catch (error) {
+    submitted = false;
+    alert(error.message);
+  }
+}
+
+loadExam();
+
+</script>
+
+</body>
+</html>

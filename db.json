@@ -1,0 +1,35 @@
+{
+  "adminPassword": "T9#vL2@Qx8!Rm4$Wp7^Nz1&Ka5*Hy3",
+  "exams": [
+    {
+      "id": 1,
+      "title": "اختبار تجريبي",
+      "duration": 5,
+      "questions": [
+        {
+          "id": 1,
+          "text": "ما ناتج 5 × 5؟",
+          "options": [
+            "10",
+            "15",
+            "20",
+            "25"
+          ],
+          "answer": 3
+        },
+        {
+          "id": 2,
+          "text": "ما عاصمة اليمن؟",
+          "options": [
+            "صنعاء",
+            "عدن",
+            "تعز",
+            "المكلا"
+          ],
+          "answer": 0
+        }
+      ]
+    }
+  ],
+  "results": []
+}

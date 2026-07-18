@@ -1,0 +1,201 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة الاختبارات</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<header>
+<div class="container">
+<nav>
+<div class="brand">منصة الاختبارات الإلكترونية</div>
+
+<div>
+<a class="btn" href="/admin">لوحة الإدارة</a>
+</div>
+
+</nav>
+</div>
+</header>
+
+<section class="hero">
+
+<div class="container">
+<h1 id="homeTitle">
+النص الموجود عندك
+</h1>
+
+
+<p id="homeDescription">
+النص الموجود هنا
+</p>
+</div>
+
+</section>
+
+<section class="section">
+
+<div class="container">
+
+<div class="card">
+
+<h2>
+🔔 الإشعارات
+</h2>
+
+<div id="notifications">
+لا توجد إشعارات
+</div>
+
+</div>
+<br>
+
+<div id="examList" class="grid">
+
+<div class="card">
+جاري تحميل الاختبارات...
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+async function loadExams(){
+
+const box=document.getElementById("examList");
+
+try{
+
+const res=await fetch("/api/exams");
+
+const exams=await res.json();
+
+if(exams.length===0){
+
+box.innerHTML=`
+<div class="card">
+لا توجد اختبارات حالياً.
+</div>
+`;
+
+return;
+
+}
+
+box.innerHTML="";
+
+exams.forEach(exam=>{
+
+box.innerHTML+=`
+
+<div class="card">
+
+<h3>${exam.title}</h3>
+
+<p>
+
+مدة الاختبار:
+<b>${exam.duration}</b>
+دقيقة
+
+</p>
+
+<p>
+
+عدد الأسئلة:
+<b>${exam.questionCount}</b>
+
+</p>
+
+<br>
+
+<a class="btn" href="/exam?id=${exam.id}">
+
+ابدأ الاختبار
+
+</a>
+
+</div>
+
+`;
+
+});
+
+}
+
+catch{
+
+box.innerHTML=`
+
+<div class="card">
+
+تعذر تحميل الاختبارات.
+
+</div>
+
+`;
+
+}
+
+}
+
+loadExams();
+
+</script>
+<script>
+
+async function loadHomeData(){
+
+  const res = await fetch("/api/admin/data");
+
+  const data = await res.json();
+
+
+  if(data.settings){
+
+    document.getElementById("homeTitle").textContent =
+      data.settings.title;
+
+
+    document.getElementById("homeDescription").textContent =
+      data.settings.description;
+
+  }
+
+
+  if(data.notifications){
+
+    document.getElementById("notifications").innerHTML =
+      data.notifications.map(item =>
+
+      `
+      <div class="card">
+        <h3>${item.title}</h3>
+        <p>${item.message}</p>
+      </div>
+      `
+
+      ).join("");
+
+  }
+
+}
+
+
+loadHomeData();
+
+</script>
+</body>
+</html>
