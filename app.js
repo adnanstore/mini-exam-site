@@ -1009,3 +1009,4 @@ async function addNotification(){
 window.editExam = editExam;
 window.saveExam = saveExam;
 window.deleteExam = deleteExam;
+window.editingExamId = editingExamId;
