@@ -43,10 +43,9 @@
         placeholder="كلمة المرور"
       >
 
-      <button onclick="login()">
-        دخول
+      <button id="loginButton" type="button">
+  دخول
       </button>
-
       <div id="loginMsg"></div>
     </div>
 
@@ -317,6 +316,9 @@
 
   </div>
 </section>
+ <script>
+document.getElementById("loginButton").addEventListener("click", login);
+</script>
 
 <script src="/app.js"></script>
 
