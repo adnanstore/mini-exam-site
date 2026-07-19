@@ -23,6 +23,7 @@ function showMessage(elementId, message, type = "error") {
 }
 
 async function login() {
+  alert("تم تشغيل تسجيل الدخول");
   const passwordInput =
     document.getElementById("password");
 
