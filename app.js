@@ -4,7 +4,7 @@ let database = {
   results: []
 };
 
-let editingExamId = null;
+window.editingExamId = null;
 let questionCounter = 0;
 
 function showMessage(elementId, message, type = "error") {
@@ -344,9 +344,9 @@ if (!attempts || attempts < 1) {
   attempts,
   questions
 };
-if (editingExamld) {
+    if (window.editingExamId) {
 await adminRequest(
-  "/api/admin/exams/" + editingExamId,
+  "/api/admin/exams/" + window.editingExamId
   {
     method: "PUT",
     headers: {
@@ -537,7 +537,7 @@ function editExam(examId) {
     return;
   }
 
-  editingExamId = exam.id;
+  window.editingExamId = exam.id;
 
   document.getElementById("title").value =
     exam.title;
@@ -587,7 +587,7 @@ async function deleteExam(examId) {
       }
     );
 
-    if (editingExamId === examId) {
+    if (window.editingExamId === examId) {
       clearForm();
     }
 
