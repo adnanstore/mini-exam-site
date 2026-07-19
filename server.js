@@ -4,8 +4,8 @@ const path = require("path");
 
 const PORT = process.env.PORT || 3000;
 const DEFAULT_ADMIN_PASSWORD = "admin123";
+const PUBLIC_DIR = __dirname;
 
-const PUBLIC_DIR = path.join(__dirname, "public");
 const DATA_DIR = path.join(__dirname, "data");
 const DB_FILE = path.join(DATA_DIR, "db.json");
 
