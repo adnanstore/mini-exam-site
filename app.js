@@ -1005,5 +1005,7 @@ async function addNotification(){
   document.getElementById("notificationMsg").textContent =
     "تم نشر الإشعار";
 
-
 }
+window.editExam = editExam;
+window.saveExam = saveExam;
+window.deleteExam = deleteExam;
